@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect, render_template_string
 import sqlite3
 import os
 
@@ -39,7 +39,8 @@ def index():
             <li><a href="/search">Query Me This</a></li>
             <li><a href="/comment">Flag Alert!</a></li>
             <li><a href="/admin-panel?role=user">Climbing the Ranks</a></li>
-            <li><a href="/files?name=files/about.txt">Secrets</a> <small>(Can you find something more... secret?)</small></li>
+            <li><a href="/files?name=files/about.txt">Dot Dot Flag</a> <small>(Can you find something more... secret?)</small></li>
+            <li><a href="/login">Trust Issues</a></li>
         </ul>
     '''
 
@@ -123,6 +124,31 @@ def file_viewer():
         return f"<h2>File Viewer</h2><pre>{contents}</pre><p><a href='/'>Back</a></p>"
     except Exception as e:
         return f"<p>Error opening file: {e}</p><p><a href='/'>Back</a></p>"
+
+
+# --- Misconfiguration Challenge ---
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    message = ""
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        # Hardcoded credentials (misconfiguration!)
+        if username == 'guest' and password == 'guest':
+            return "<h2>Welcome, guest!</h2><p>🎉 flag{m1sc0nf1gur3d_acc3ss}</p>"
+        else:
+            message = "<p style='color:red;'>Invalid credentials</p>"
+
+    return f'''
+        <h2>🔓 Misconfiguration Login</h2>
+        <form method="POST">
+            Username: <input name="username"><br>
+            Password: <input name="password" type="password"><br>
+            <input type="submit" value="Login">
+        </form>
+        {message}
+        <p><a href='/'>Back to Home</a></p>
+    '''
 
 
 # --- Run the App ---
