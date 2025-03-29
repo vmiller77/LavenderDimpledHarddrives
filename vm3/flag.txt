@@ -1,1 +1,1 @@
-flag{v1rtu4l_w4ll_h0pp3r}
+flag{vm3_only_access}

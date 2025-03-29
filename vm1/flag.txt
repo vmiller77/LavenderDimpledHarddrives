@@ -1,1 +1,1 @@
-Gotcha! Flag is not here!
+flag{vm1_only_access}
